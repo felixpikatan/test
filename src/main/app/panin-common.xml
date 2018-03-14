@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd">
+    <flow name="panin-commonFlow">
+        <vm:inbound-endpoint exchange-pattern="request-response" path="common" connector-ref="sharedVmConnector" doc:name="VM"/>
+        <logger message="Value Request : #[payload]" level="INFO" doc:name="Logger"/>
+        <set-property propertyName="Content-Type" value="application/x-www-form-urlencoded" doc:name="Property" />
+        <expression-component doc:name="Expression">
+        <![CDATA[
+        	response = new HashMap();
+        	response['msisdn'] = '085726291195';
+        	response['name'] = 'Felix';
+        	payload = response;
+        ]]>
+        </expression-component>
+    </flow>
+</mule>
